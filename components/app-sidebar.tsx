@@ -22,7 +22,6 @@ import {
   SidebarMenuSub,
   SidebarRail,
 } from "~/components/ui/sidebar";
-import { useTabStore } from "~/stores/tab-store-provider";
 
 const tree = [
   [
@@ -59,11 +58,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 function Tree({ item }: { item: Record<string, string> | any[] }) {
   const pathname = usePathname();
   const [{ name, href }, ...items] = Array.isArray(item) ? item : [item];
-  const addTab = useTabStore((state) => state.addTab);
 
   if (!items.length) {
     return (
-      <Link href={href} onClick={() => addTab?.(name)}>
+      <Link href={href}>
         <SidebarMenuButton
           isActive={pathname === href}
           className="data-[active=true]:bg-slate-600/50 data-[active=true]:focus:outline-blue-600"
