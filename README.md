@@ -1,4 +1,4 @@
-# Text Editor Portfolio
+# Code Editor Portfolio
 
 A VS Code-inspired portfolio.
 
