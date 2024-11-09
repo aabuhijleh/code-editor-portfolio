@@ -48,7 +48,7 @@ export default function Page() {
         <AppSidebar className="top-[var(--header-height)]" />
         <SidebarInset className="top-[var(--header-height)] h-[calc(100svh-var(--header-height))] min-h-[calc(100svh-var(--header-height))]">
           <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-            <SidebarTrigger className="-ml-1" />
+            <SidebarTrigger className="-ml-1" title="Toggle Sidebar" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
