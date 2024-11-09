@@ -1,4 +1,4 @@
-import { Settings } from "lucide-react";
+import { Settings, SquareChevronRight } from "lucide-react";
 
 import { AppSidebar } from "~/components/app-sidebar";
 import {
@@ -27,7 +27,7 @@ export default function Page() {
         } as React.CSSProperties
       }
     >
-      <header className="fixed z-50 flex h-[var(--header-height)] w-full items-center justify-between border-b">
+      <header className="fixed z-50 flex h-[var(--header-height)] w-full items-center justify-between border-b px-1">
         <div />
         <div>
           <Button
@@ -35,12 +35,18 @@ export default function Page() {
             className="h-6 rounded-lg border bg-slate-800/50 px-32 py-0 text-sm text-muted-foreground hover:text-muted-foreground lg:px-64"
             title="Open command palette"
           >
-            abed-portfolio
+            <SquareChevronRight /> abed-portfolio
           </Button>
         </div>
-        <div>
-          <Button variant="ghost" size="icon" title="Settings">
+        <div className="h-7 w-7">
+          <Button
+            variant="ghost"
+            size="icon"
+            title="Settings"
+            className="h-7 w-7"
+          >
             <Settings />
+            <span className="sr-only">Settings</span>
           </Button>
         </div>
       </header>
@@ -48,7 +54,7 @@ export default function Page() {
         <AppSidebar className="top-[var(--header-height)]" />
         <SidebarInset className="top-[var(--header-height)] h-[calc(100svh-var(--header-height))] min-h-[calc(100svh-var(--header-height))]">
           <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-            <SidebarTrigger className="-ml-1" title="Toggle Sidebar" />
+            <SidebarTrigger className="-ml-1" title="Toggle sidebar" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
