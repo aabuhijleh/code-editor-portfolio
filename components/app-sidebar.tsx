@@ -1,4 +1,8 @@
+"use client";
+
 import { ChevronRight, File, Folder } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import * as React from "react";
 
 import {
@@ -13,82 +17,34 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarRail,
 } from "~/components/ui/sidebar";
+import { useTabStore } from "~/stores/tab-store-provider";
 
-// This is sample data.
-const data = {
-  changes: [
-    {
-      file: "README.md",
-      state: "M",
-    },
-    {
-      file: "api/hello/route.ts",
-      state: "U",
-    },
-    {
-      file: "app/layout.tsx",
-      state: "M",
-    },
+const tree = [
+  [
+    { name: "components" },
+    { name: "About.tsx", href: "/about" },
+    { name: "Experience.tsx", href: "/experience" },
+    { name: "Projects.tsx", href: "/projects" },
   ],
-  tree: [
-    [
-      "app",
-      [
-        "api",
-        ["hello", ["route.ts"]],
-        "page.tsx",
-        "layout.tsx",
-        ["blog", ["page.tsx"]],
-      ],
-    ],
-    [
-      "components",
-      ["ui", "button.tsx", "card.tsx"],
-      "header.tsx",
-      "footer.tsx",
-    ],
-    ["lib", ["util.ts"]],
-    ["public", "favicon.ico", "vercel.svg"],
-    ".eslintrc.json",
-    ".gitignore",
-    "next.config.js",
-    "tailwind.config.js",
-    "package.json",
-    "README.md",
-  ],
-};
+  [{ name: "public" }, { name: "Profile.png", href: "/profile" }],
+  { name: "Contact.md", href: "/contact" },
+  { name: "Resume.pdf", href: "/resume" },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Changes</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {data.changes.map((item, index) => (
-                <SidebarMenuItem key={index}>
-                  <SidebarMenuButton>
-                    <File />
-                    {item.file}
-                  </SidebarMenuButton>
-                  <SidebarMenuBadge>{item.state}</SidebarMenuBadge>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup>
           <SidebarGroupLabel>Files</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {data.tree.map((item, index) => (
+              {tree.map((item, index) => (
                 <Tree key={index} item={item} />
               ))}
             </SidebarMenu>
@@ -100,18 +56,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   );
 }
 
-function Tree({ item }: { item: string | any[] }) {
-  const [name, ...items] = Array.isArray(item) ? item : [item];
+function Tree({ item }: { item: Record<string, string> | any[] }) {
+  const pathname = usePathname();
+  const [{ name, href }, ...items] = Array.isArray(item) ? item : [item];
+  const addTab = useTabStore((state) => state.addTab);
 
   if (!items.length) {
     return (
-      <SidebarMenuButton
-        isActive={name === "button.tsx"}
-        className="data-[active=true]:bg-transparent"
-      >
-        <File />
-        {name}
-      </SidebarMenuButton>
+      <Link href={href} onClick={() => addTab?.(name)}>
+        <SidebarMenuButton
+          isActive={pathname === href}
+          className="data-[active=true]:bg-slate-600/50 data-[active=true]:focus:outline-blue-600"
+        >
+          <File />
+          {name}
+        </SidebarMenuButton>
+      </Link>
     );
   }
 
@@ -119,7 +79,7 @@ function Tree({ item }: { item: string | any[] }) {
     <SidebarMenuItem>
       <Collapsible
         className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
-        defaultOpen={name === "components" || name === "ui"}
+        defaultOpen={name === "components" || name === "public"}
       >
         <CollapsibleTrigger asChild>
           <SidebarMenuButton>
