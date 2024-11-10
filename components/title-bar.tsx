@@ -47,7 +47,7 @@ function SettingsButton() {
 
 export function TitleBar() {
   return (
-    <header className="fixed z-50 w-full border-b bg-background">
+    <header className="fixed z-20 w-full border-b bg-background">
       <nav className="flex h-[var(--header-height)] items-center justify-between px-1">
         <div /> {/* Spacer */}
         <div>

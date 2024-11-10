@@ -3,6 +3,7 @@ import React from "react";
 
 import { CommandPalette } from "~/components/command-palette";
 import { EditorWrapper } from "~/components/editor-wrapper";
+import { Loader } from "~/components/loader";
 import { ThemeProvider } from "~/components/theme-provider";
 import { TitleBar } from "~/components/title-bar";
 import { SidebarProvider } from "~/components/ui/sidebar";
@@ -23,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className="font-sans antialiased"
+        className="overflow-hidden font-sans antialiased"
         style={
           {
             "--header-height": "36px",
@@ -38,6 +39,7 @@ export default function RootLayout({
           <TabStoreProvider>
             <CommandStoreProvider>
               <SidebarProvider>
+                <Loader />
                 <CommandPalette />
                 <TitleBar />
                 <EditorWrapper>{children}</EditorWrapper>

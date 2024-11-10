@@ -66,6 +66,15 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      keyframes: {
+        fadeOut: {
+          from: { opacity: "1", visibility: "visible" },
+          to: { opacity: "0", visibility: "hidden" },
+        },
+      },
+      animation: {
+        "fade-out": "fadeOut 0.8s ease-in-out 1s forwards",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

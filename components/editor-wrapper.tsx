@@ -1,7 +1,6 @@
-import { ScrollArea } from "@radix-ui/react-scroll-area";
-
 import { AppSidebar } from "./app-sidebar";
 import { EditorHeader } from "./editor-header";
+import { ScrollArea } from "./ui/scroll-area";
 import { SidebarInset } from "./ui/sidebar";
 
 type EditorWrapperProps = {
