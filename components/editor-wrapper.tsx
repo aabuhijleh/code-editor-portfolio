@@ -14,7 +14,7 @@ export function EditorWrapper({ children }: EditorWrapperProps) {
       <AppSidebar className="top-[var(--header-height)]" />
       <SidebarInset className="top-[var(--header-height)] h-[calc(100svh-var(--header-height))] min-h-[calc(100svh-var(--header-height))]">
         <EditorHeader />
-        <ScrollArea>{children}</ScrollArea>
+        <ScrollArea className="p-8">{children}</ScrollArea>
       </SidebarInset>
     </>
   );

@@ -22,18 +22,7 @@ import {
   SidebarMenuSub,
   SidebarRail,
 } from "~/components/ui/sidebar";
-
-const tree = [
-  [
-    { name: "components" },
-    { name: "About.tsx", href: "/about" },
-    { name: "Experience.tsx", href: "/experience" },
-    { name: "Projects.tsx", href: "/projects" },
-  ],
-  [{ name: "public" }, { name: "Profile.png", href: "/profile" }],
-  { name: "Contact.md", href: "/contact" },
-  { name: "Resume.pdf", href: "/resume" },
-];
+import { FILE_TREE } from "~/constants";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -43,7 +32,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupLabel>Files</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {tree.map((item, index) => (
+              {FILE_TREE.map((item, index) => (
                 <Tree key={index} item={item} />
               ))}
             </SidebarMenu>

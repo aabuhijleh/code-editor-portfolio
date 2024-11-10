@@ -3,11 +3,15 @@ import { persist } from "zustand/middleware";
 
 export type Tab = { name: string; href: string };
 
-export type TabState = { tabs: Tab[]; activeTab: Tab | null };
+export type TabState = {
+  tabs: Tab[];
+  activeTab: Tab | null;
+};
 
 export type TabActions = {
   addTab: (tab: Tab) => void;
   removeTab: (tab: Tab) => void;
+  setActiveTab: (tab: Tab) => void;
 };
 
 export type TabStore = TabState & TabActions;
@@ -19,24 +23,36 @@ export const createTabStore = (initialState: TabState = defaultInitialState) =>
     persist(
       (set, get) => ({
         ...initialState,
+
         addTab: (tab) => {
-          const tabs = get().tabs;
+          const { tabs } = get();
           const tabExists = tabs.some((t) => t.href === tab.href);
+
+          // Only add the tab if it doesn't exist, always set it as active
           return set({
             tabs: tabExists ? tabs : [...tabs, tab],
             activeTab: tab,
           });
         },
-        removeTab: (tab) =>
+
+        removeTab: (tab) => {
+          const { tabs, activeTab } = get();
+          const currentIndex = tabs.indexOf(tab);
+
+          // When removing the active tab, try to activate the next tab,
+          // if not available, try the previous tab, if none exist, set to null
+          const newActiveTab =
+            activeTab?.href === tab.href
+              ? tabs[currentIndex + 1] || tabs[currentIndex - 1] || null
+              : activeTab;
+
           set({
-            tabs: get().tabs.filter((t) => t.href !== tab.href),
-            activeTab:
-              get().activeTab?.href === tab.href
-                ? get().tabs[get().tabs.indexOf(tab) - 1] ||
-                  get().tabs[get().tabs.indexOf(tab) + 1] ||
-                  null
-                : get().activeTab,
-          }),
+            tabs: tabs.filter((t) => t.href !== tab.href),
+            activeTab: newActiveTab,
+          });
+        },
+
+        setActiveTab: (tab) => set({ activeTab: tab }),
       }),
       {
         name: "tab-store",
