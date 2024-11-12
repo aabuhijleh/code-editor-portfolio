@@ -12,6 +12,7 @@ export type TabActions = {
   addTab: (tab: Tab) => void;
   removeTab: (tab: Tab) => void;
   setActiveTab: (tab: Tab) => void;
+  reorderTabs: (oldIndex: number, newIndex: number) => void;
 };
 
 export type TabStore = TabState & TabActions;
@@ -49,6 +50,15 @@ export const createTabStore = (initialState: TabState = defaultInitialState) =>
           set({
             tabs: tabs.filter((t) => t.href !== tab.href),
             activeTab: newActiveTab,
+          });
+        },
+
+        reorderTabs: (oldIndex: number, newIndex: number) => {
+          set((state) => {
+            const newTabs = [...state.tabs];
+            const [removed] = newTabs.splice(oldIndex, 1);
+            newTabs.splice(newIndex, 0, removed);
+            return { ...state, tabs: newTabs };
           });
         },
 
